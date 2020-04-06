@@ -15,6 +15,8 @@
 		3E22EBFF243B583900A90E76 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E22EBFD243B583900A90E76 /* LaunchScreen.storyboard */; };
 		3E22EC0A243B583900A90E76 /* covid_visualizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E22EC09243B583900A90E76 /* covid_visualizerTests.swift */; };
 		3E22EC15243B583900A90E76 /* covid_visualizerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E22EC14243B583900A90E76 /* covid_visualizerUITests.swift */; };
+		3E8DE665243B745100DF1E61 /* CovidTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8DE663243B745100DF1E61 /* CovidTableViewCell.swift */; };
+		3E8DE666243B745100DF1E61 /* CovidTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E8DE664243B745100DF1E61 /* CovidTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,9 @@
 		3E22EC10243B583900A90E76 /* covid-visualizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "covid-visualizerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E22EC14243B583900A90E76 /* covid_visualizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = covid_visualizerUITests.swift; sourceTree = "<group>"; };
 		3E22EC16243B583900A90E76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3E22EC22243B585200A90E76 /* covid-visualizer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "covid-visualizer.entitlements"; sourceTree = "<group>"; };
+		3E8DE663243B745100DF1E61 /* CovidTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidTableViewCell.swift; sourceTree = "<group>"; };
+		3E8DE664243B745100DF1E61 /* CovidTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CovidTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +104,7 @@
 		3E22EBF1243B583700A90E76 /* covid-visualizer */ = {
 			isa = PBXGroup;
 			children = (
+				3E22EC22243B585200A90E76 /* covid-visualizer.entitlements */,
 				3E22EBF2243B583700A90E76 /* AppDelegate.swift */,
 				3E22EBF4243B583700A90E76 /* SceneDelegate.swift */,
 				3E22EBF6243B583700A90E76 /* ViewController.swift */,
@@ -106,6 +112,8 @@
 				3E22EBFB243B583900A90E76 /* Assets.xcassets */,
 				3E22EBFD243B583900A90E76 /* LaunchScreen.storyboard */,
 				3E22EC00243B583900A90E76 /* Info.plist */,
+				3E8DE663243B745100DF1E61 /* CovidTableViewCell.swift */,
+				3E8DE664243B745100DF1E61 /* CovidTableViewCell.xib */,
 			);
 			path = "covid-visualizer";
 			sourceTree = "<group>";
@@ -235,6 +243,7 @@
 				3E22EBFF243B583900A90E76 /* LaunchScreen.storyboard in Resources */,
 				3E22EBFC243B583900A90E76 /* Assets.xcassets in Resources */,
 				3E22EBFA243B583700A90E76 /* Main.storyboard in Resources */,
+				3E8DE666243B745100DF1E61 /* CovidTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +271,7 @@
 				3E22EBF7243B583700A90E76 /* ViewController.swift in Sources */,
 				3E22EBF3243B583700A90E76 /* AppDelegate.swift in Sources */,
 				3E22EBF5243B583700A90E76 /* SceneDelegate.swift in Sources */,
+				3E8DE665243B745100DF1E61 /* CovidTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +444,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "covid-visualizer/covid-visualizer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4HFFLP8XBL;
 				INFOPLIST_FILE = "covid-visualizer/Info.plist";
@@ -443,6 +454,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fcs.covid-visualizer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -452,6 +464,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "covid-visualizer/covid-visualizer.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4HFFLP8XBL;
 				INFOPLIST_FILE = "covid-visualizer/Info.plist";
@@ -461,6 +474,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fcs.covid-visualizer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
