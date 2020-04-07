@@ -32,7 +32,7 @@
                         <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="oWA-fs-yIv" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="NJB-YM-Ab7"/>
                     <constraint firstItem="vr4-tu-03R" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="XTP-Jf-kHz"/>
@@ -42,12 +42,13 @@
                     <constraint firstAttribute="bottom" secondItem="vr4-tu-03R" secondAttribute="bottom" constant="10" id="uxS-Rs-S5a"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="countryFlagImageView" destination="vr4-tu-03R" id="VNt-iM-xJJ"/>
                 <outlet property="countryNameLabel" destination="oWA-fs-yIv" id="nNx-Sv-GVs"/>
             </connections>
-            <point key="canvasLocation" x="32.608695652173914" y="136.27232142857142"/>
+            <point key="canvasLocation" x="-53" y="127"/>
         </tableViewCell>
     </objects>
 </document>

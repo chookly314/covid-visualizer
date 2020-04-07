@@ -8,13 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CountriesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var table: UITableView!
     
     let countriesURL: String = "https://corona.lmao.ninja/countries"
     
     var countries = [CountryCell]()
+    
+    var selectedCountryName : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +47,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         return
                     }
                     
-                    print("\(finalResult.first?.country)")
-                    
                     let newCountries = finalResult
                     self.countries.append(contentsOf: newCountries)
                     
@@ -68,7 +68,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        //TODO: show country details
+        self.selectedCountryName = countries[indexPath.row].country
+        performSegue(withIdentifier: "showCountryDetails", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is CountryDetailsViewController
+        {
+            let vc = segue.destination as? CountryDetailsViewController
+            vc?.selectedCountryName = self.selectedCountryName!
+        }
     }
     
 }
@@ -81,18 +91,3 @@ struct CountryCell: Codable {
 struct CountryInfo: Codable {
     let flag: String
 }
-
-struct CountryDetails: Codable {
-    let cases: Int
-    let todayCases: Int
-    let deaths: Int
-    let todayDeaths: Int
-    let recovered: Int
-    let active: Int
-    let critical: Int
-    let casesPerOneMillion: Int
-    let deathsPerOneMillion: Int
-    let tests: Int
-    let testsPerOneMillion: Int
-}
-

@@ -13,6 +13,10 @@ class CovidTableViewCell: UITableViewCell {
     @IBOutlet var countryNameLabel: UILabel!
     @IBOutlet var countryFlagImageView: UIImageView!
 
+    override required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -30,8 +34,8 @@ class CovidTableViewCell: UITableViewCell {
     
     func configure(with model: CountryCell) {
         self.countryNameLabel.text = model.country
-        let url = model.countryInfo.flag
-        if let data = try? Data(contentsOf: URL(string:url)!) {
+        let imageUrl = model.countryInfo.flag
+        if let data = try? Data(contentsOf: URL(string:imageUrl)!) {
                 self.countryFlagImageView.image = UIImage(data: data)
         }
     }
