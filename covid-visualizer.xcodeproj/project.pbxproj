@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,8 @@
 		3E42C62C243D023400B258F6 /* CountryDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E42C62B243D023400B258F6 /* CountryDetailsViewController.swift */; };
 		3E8DE665243B745100DF1E61 /* CovidTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8DE663243B745100DF1E61 /* CovidTableViewCell.swift */; };
 		3E8DE666243B745100DF1E61 /* CovidTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E8DE664243B745100DF1E61 /* CovidTableViewCell.xib */; };
+		3EF2B292243E0EB1006C5EE8 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E42C633243D242D00B258F6 /* Charts.framework */; platformFilter = ios; };
+		3EF2B293243E0EB1006C5EE8 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3E42C633243D242D00B258F6 /* Charts.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,14 +52,21 @@
 			remoteGlobalIDString = 1CBBC58C6CE1EBEE9852CE41;
 			remoteInfo = ChartsTests;
 		};
-		3E42C636243D244500B258F6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3E42C62D243D242D00B258F6 /* Charts.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A58A4ED274A941CA248EA921;
-			remoteInfo = Charts;
-		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3EF2B294243E0EB1006C5EE8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3EF2B293243E0EB1006C5EE8 /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3E22EBEF243B583700A90E76 /* covid-visualizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "covid-visualizer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EF2B292243E0EB1006C5EE8 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +125,7 @@
 				3E22EC13243B583900A90E76 /* covid-visualizerUITests */,
 				3E22EBF0243B583700A90E76 /* Products */,
 				3E42C62D243D242D00B258F6 /* Charts.xcodeproj */,
+				3EF2B291243E0EB1006C5EE8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -174,6 +185,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3EF2B291243E0EB1006C5EE8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -184,11 +202,11 @@
 				3E22EBEB243B583700A90E76 /* Sources */,
 				3E22EBEC243B583700A90E76 /* Frameworks */,
 				3E22EBED243B583700A90E76 /* Resources */,
+				3EF2B294243E0EB1006C5EE8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3E42C637243D244500B258F6 /* PBXTargetDependency */,
 			);
 			name = "covid-visualizer";
 			productName = "covid-visualizer";
@@ -368,11 +386,6 @@
 			target = 3E22EBEE243B583700A90E76 /* covid-visualizer */;
 			targetProxy = 3E22EC11243B583900A90E76 /* PBXContainerItemProxy */;
 		};
-		3E42C637243D244500B258F6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Charts;
-			targetProxy = 3E42C636243D244500B258F6 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -514,8 +527,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "covid-visualizer/covid-visualizer.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4HFFLP8XBL;
+				DEVELOPMENT_TEAM = CD47UK2BJX;
 				INFOPLIST_FILE = "covid-visualizer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -535,8 +549,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "covid-visualizer/covid-visualizer.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4HFFLP8XBL;
+				DEVELOPMENT_TEAM = CD47UK2BJX;
 				INFOPLIST_FILE = "covid-visualizer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
 				LD_RUNPATH_SEARCH_PATHS = (

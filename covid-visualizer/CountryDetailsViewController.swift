@@ -9,7 +9,7 @@
 import UIKit
 import Charts
 
-class CountryDetailsViewController: UIViewController {
+class CountryDetailsViewController: UIViewController, ChartViewDelegate {
 
     // MARK - Outlets
     @IBOutlet weak var flag: UIImageView!
@@ -38,7 +38,6 @@ class CountryDetailsViewController: UIViewController {
     let apiCountryDetailsPath: String = "/countries"
     let apiCountryTimeseriesPath: String = "/v2/historical/"
     // Titles
-    let countryDetailsUrl : String = "https://corona.lmao.ninja/countries/"
     let casesTitle: String = "Total cases: "
     let todayCasesTitle: String = "Total cases today: "
     let deathsTitle: String = "Total deaths: "
@@ -57,6 +56,7 @@ class CountryDetailsViewController: UIViewController {
     var resultDataToDisplay: WorldSummaryDetails?
     weak var axisFormatDelegate: IAxisValueFormatter?
     var timestampArray: [String] = []
+    var daysToQueryForInGraphs = "30"
 
     // MARK - Class enums
     enum graphTypes {
@@ -67,9 +67,11 @@ class CountryDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        axisFormatDelegate = self
+        
         initializeStaticLabels()
         retrieveCountryDetails()
-        updateGraphs()
+        calculateNumberOfDatesToQueryForTimeseries()
     }
     
     func initializeStaticLabels() {
@@ -81,13 +83,11 @@ class CountryDetailsViewController: UIViewController {
     
     func retrieveCountryDetails() {
         
-        let escapedCountry : String = selectedCountryName!.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        
         // Create the URL to query
         var urlComponents = URLComponents()
         urlComponents.scheme = self.apiProtocol
         urlComponents.host = self.apiDomainName
-        urlComponents.path = "\(self.apiCountryDetailsPath)/\(escapedCountry)"
+        urlComponents.path = "\(self.apiCountryDetailsPath)/\(selectedCountryName!)"
         URLSession.shared.dataTask(with: URL(string: urlComponents.url!.absoluteString)!,
                 completionHandler: { data, response, error in
                     guard let data = data, error == nil else {
@@ -133,16 +133,14 @@ class CountryDetailsViewController: UIViewController {
     }
     
     func updateGraphs() {
-
-        let escapedCountry : String = selectedCountryName!.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         
         // Create the URL to query
         var urlComponents = URLComponents()
         urlComponents.scheme = self.apiProtocol
         urlComponents.host = self.apiDomainName
-        urlComponents.path = "\(self.apiCountryTimeseriesPath)\(escapedCountry)"
+        urlComponents.path = "\(self.apiCountryTimeseriesPath)\(selectedCountryName!)"
         urlComponents.queryItems = [
-           URLQueryItem(name: "lastdays", value: "40"),
+            URLQueryItem(name: "lastdays", value: self.daysToQueryForInGraphs),
         ]
         
         URLSession.shared.dataTask(with: URL(string: urlComponents.url!.absoluteString)!,
@@ -237,6 +235,52 @@ class CountryDetailsViewController: UIViewController {
         print("DataSetIndex: \(highlight.dataSetIndex)")
         print("StackIndex: \(highlight.stackIndex)\n\n")
     }
+    
+    func calculateNumberOfDatesToQueryForTimeseries() {
+        let maxAge : Int = 1000
+        
+        // Create the URL to query
+        var urlComponents = URLComponents()
+        urlComponents.scheme = self.apiProtocol
+        urlComponents.host = self.apiDomainName
+        urlComponents.path = "\(self.apiCountryTimeseriesPath)\(selectedCountryName!)"
+        urlComponents.queryItems = [
+           URLQueryItem(name: "lastdays", value: String(maxAge)),
+        ]
+        
+        URLSession.shared.dataTask(with: URL(string: urlComponents.url!.absoluteString)!,
+                completionHandler: { data, response, error in
+                    guard let data = data, error == nil else {
+                        return
+                    }
+                    
+                    var result: CountryTimeSeries?
+                    do {
+                        result = try JSONDecoder().decode(CountryTimeSeries.self, from: data)
+                    } catch {
+                        print(error)
+                    }
+                    
+                    guard let finalResult = result else {
+                        return
+                    }
+
+                    var numberOfCasesArray : [Double] = Array(finalResult.timeline.cases.values).compactMap(Double.init)
+                    numberOfCasesArray.sort()
+                    
+                    var daysNumber : String = ""
+                    
+                    for i in 0..<numberOfCasesArray.count {
+                        if numberOfCasesArray[i] != 0 {
+                            daysNumber = String(numberOfCasesArray.count - i)
+                            break
+                        }
+                    }
+
+                    self.daysToQueryForInGraphs = daysNumber
+                    self.updateGraphs()
+            }).resume()
+    }
 
 }
 
@@ -246,15 +290,22 @@ struct CountryTimeSeries: Codable {
 
 struct CountryDetails: Codable {
     let countryInfo: CountryInfo
-    let cases: Int
-    let todayCases: Int
-    let deaths: Int
-    let todayDeaths: Int
-    let recovered: Int
-    let active: Int
-    let critical: Int
-    let casesPerOneMillion: Int
-    let deathsPerOneMillion: Int
-    let tests: Int
-    let testsPerOneMillion: Int
+    let cases: Double
+    let todayCases: Double
+    let deaths: Double
+    let todayDeaths: Double
+    let recovered: Double
+    let active: Double
+    let critical: Double
+    let casesPerOneMillion: Double
+    let deathsPerOneMillion: Double
+    let tests: Double
+    let testsPerOneMillion: Double
+}
+
+extension CountryDetailsViewController: IAxisValueFormatter {
+
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return timestampArray[Int(value)]
+    }
 }

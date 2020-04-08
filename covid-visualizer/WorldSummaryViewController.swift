@@ -193,30 +193,28 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        print("Working")
         print("Entry X: \(entry.x)")
         print("Entry Y: \(entry.y)")
         print("Highlight X: \(highlight.x)")
         print("Highlight Y: \(highlight.y)")
-        print("DataIndex: \(highlight.dataIndex)")
-        print("DataSetIndex: \(highlight.dataSetIndex)")
-        print("StackIndex: \(highlight.stackIndex)\n\n")
     }
     
 }
 
 struct WorldSummaryDetails: Codable {
-    let cases: Int
-    let todayCases: Int
-    let deaths: Int
-    let todayDeaths: Int
-    let recovered: Int
-    let active: Int
-    let critical: Int
+    let cases: Double
+    let todayCases: Double
+    let deaths: Double
+    let todayDeaths: Double
+    let recovered: Double
+    let active: Double
+    let critical: Double
     let casesPerOneMillion: Double
     let deathsPerOneMillion: Double
-    let tests: Int
+    let tests: Double
     let testsPerOneMillion: Double
-    let affectedCountries: Int
+    let affectedCountries: Double
 }
 
 struct WorldTimeseriesData: Codable {
@@ -234,7 +232,7 @@ extension Formatter {
     }()
 }
 
-extension Int {
+extension Double {
     var formattedWithSeparator: String {
         return Formatter.withSeparator.string(for: self) ?? ""
     }
