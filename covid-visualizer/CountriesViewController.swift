@@ -8,6 +8,9 @@
 
 import UIKit
 
+var selectedCountryName : String?
+
+
 class CountriesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var table: UITableView!
@@ -15,8 +18,6 @@ class CountriesViewController: UIViewController, UITableViewDelegate, UITableVie
     let countriesURL: String = "https://corona.lmao.ninja/countries"
     
     var countries = [CountryCell]()
-    
-    var selectedCountryName : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,19 +69,10 @@ class CountriesViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        self.selectedCountryName = countries[indexPath.row].country
+        selectedCountryName = countries[indexPath.row].country
         performSegue(withIdentifier: "showCountryDetails", sender: self)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        if segue.destination is CountryDetailsViewController
-        {
-            let vc = segue.destination as? CountryDetailsViewController
-            vc?.selectedCountryName = self.selectedCountryName!
-        }
-    }
-    
+        
 }
 
 struct CountryCell: Codable {

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Charts
 
-class WorldSummaryViewController: UIViewController {
+class WorldSummaryViewController: UIViewController, ChartViewDelegate {
 
     //MARK - Outlets
     @IBOutlet weak var worldSummaryTitle: UILabel!
@@ -21,9 +22,19 @@ class WorldSummaryViewController: UIViewController {
     @IBOutlet weak var countries: UILabel!
     @IBOutlet weak var casesGraphTitle: UILabel!
     @IBOutlet weak var deathsGraphTitle: UILabel!
+    @IBOutlet weak var casesGraph: BarChartView!
+    @IBOutlet weak var deathsGraph: BarChartView!
+    @IBOutlet weak var casesIncrement: UILabel!
+    @IBOutlet weak var deathsIncrement: UILabel!
+
     
     // MARK - Class constants
-    let worldSummaryUrl: String = "https://corona.lmao.ninja/all"
+    // URL
+    let apiProtocol: String = "https"
+    let apiDomainName: String = "corona.lmao.ninja"
+    let apiWorldSummaryPath: String = "/all"
+    let apiWorldTimeseriesStatsPath: String = "/v2/historical/all"
+    // Titles
     let worldSummaryTitleText: String = "World summary statistics"
     let casesTitle: String = "Total cases: "
     let deathsTitle: String = "Total deaths: "
@@ -35,14 +46,26 @@ class WorldSummaryViewController: UIViewController {
     let casesGraphTitleText: String = "Cases over time"
     let deathsGraphTitleText: String = "Deaths over time"
     
-    // MARK - Clss variables
+    // MARK - Class variables
     var resultDataToDisplay: WorldSummaryDetails?
+    weak var axisFormatDelegate: IAxisValueFormatter?
+    var timestampArray: [String] = []
+    
+    // MARK - Class enums
+    enum graphTypes {
+        case cases
+        case deaths
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        axisFormatDelegate = self
+        
         initializeStaticLabels()
         retrieveWorldSummary()
+        retrieveIncrements()
+        updateGraphs()
     }
     
     func initializeStaticLabels() {
@@ -54,7 +77,14 @@ class WorldSummaryViewController: UIViewController {
     }
     
     func retrieveWorldSummary() {
-        URLSession.shared.dataTask(with: URL(string: worldSummaryUrl)!,
+        
+        // Create the URL to query
+        var urlComponents = URLComponents()
+        urlComponents.scheme = self.apiProtocol
+        urlComponents.host = self.apiDomainName
+        urlComponents.path = self.apiWorldSummaryPath
+        
+        URLSession.shared.dataTask(with: URL(string: urlComponents.url!.absoluteString)!,
                 completionHandler: { data, response, error in
                     guard let data = data, error == nil else {
                         return
@@ -80,20 +110,101 @@ class WorldSummaryViewController: UIViewController {
                         self.critical.text = "\(self.criticalTitle) \(finalResult.critical.formattedWithSeparator)"
                         self.tests.text = "\(self.testsTitle) \(finalResult.tests.formattedWithSeparator)"
                         self.countries.text = "\(self.countriesTitle) \(finalResult.affectedCountries.formattedWithSeparator)"
-                    }
+                        self.casesIncrement.text = "\(finalResult.todayCases.formattedWithSeparator)"
+                        self.deathsIncrement.text = "\(finalResult.todayDeaths.formattedWithSeparator)"                    }
                     
             }).resume()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func retrieveIncrements() {
+        
     }
-    */
+    
+    func updateGraphs() {
+        
+        // Create the URL to query
+        var urlComponents = URLComponents()
+        urlComponents.scheme = self.apiProtocol
+        urlComponents.host = self.apiDomainName
+        urlComponents.path = self.apiWorldTimeseriesStatsPath
+        urlComponents.queryItems = [
+           URLQueryItem(name: "lastdays", value: "90"),
+        ]
+        
+        URLSession.shared.dataTask(with: URL(string: urlComponents.url!.absoluteString)!,
+                completionHandler: { data, response, error in
+                    guard let data = data, error == nil else {
+                        return
+                    }
+                    
+                    var result: WorldTimeseriesData?
+                    do {
+                        result = try JSONDecoder().decode(WorldTimeseriesData.self, from: data)
+                    } catch {
+                        print(error)
+                    }
+                    
+                    guard let finalResult = result else {
+                        return
+                    }
 
+                    self.timestampArray = Array(finalResult.cases.keys)
+                    self.timestampArray.sort()
+                    for i in 0..<self.timestampArray.count {
+                        self.timestampArray[i] = String(self.timestampArray[i].dropLast(3))
+                    }
+                    
+                    var numberOfCasesArray : [Double] = Array(finalResult.cases.values).compactMap(Double.init)
+                    numberOfCasesArray.sort()
+                    var numberOfDeathsArray : [Double] = Array(finalResult.deaths.values).compactMap(Double.init)
+                    numberOfDeathsArray.sort()
+                    
+                    // Update graphs
+                    DispatchQueue.main.async {
+                        self.setChart(self.timestampArray, values: numberOfCasesArray, graph: graphTypes.cases)
+                        self.setChart(self.timestampArray, values: numberOfDeathsArray, graph: graphTypes.deaths)
+                    }
+                    
+            }).resume()
+                
+    }
+
+    // MARK - Graph functions
+    func setChart(_ dataPoints: [String], values: [Double], graph: graphTypes) {
+        var dataEntries: [BarChartDataEntry] = []
+                
+        for i in 0..<dataPoints.count {
+            let dataEntry = BarChartDataEntry(x: Double(i), yValues: [values[i]], data: dataPoints as AnyObject?)
+            dataEntries.append(dataEntry)
+        }
+                
+        let chartDataSet = BarChartDataSet(entries: dataEntries, label: "Cases")
+        let chartData = BarChartData(dataSet: chartDataSet)
+        chartData.setDrawValues(false)
+        if graph == .cases {
+            self.casesGraph.data = chartData
+            self.casesGraph.legend.enabled = false
+            let xAxisValue = self.casesGraph.xAxis
+            xAxisValue.valueFormatter = axisFormatDelegate
+        } else {
+            self.deathsGraph.data = chartData
+            self.deathsGraph.legend.enabled = false
+            let xAxisValue = self.deathsGraph.xAxis
+            xAxisValue.valueFormatter = axisFormatDelegate
+
+        }
+    }
+    
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        print("Entry X: \(entry.x)")
+        print("Entry Y: \(entry.y)")
+        print("Highlight X: \(highlight.x)")
+        print("Highlight Y: \(highlight.y)")
+        print("DataIndex: \(highlight.dataIndex)")
+        print("DataSetIndex: \(highlight.dataSetIndex)")
+        print("StackIndex: \(highlight.stackIndex)\n\n")
+    }
+    
 }
 
 struct WorldSummaryDetails: Codable {
@@ -111,6 +222,11 @@ struct WorldSummaryDetails: Codable {
     let affectedCountries: Int
 }
 
+struct WorldTimeseriesData: Codable {
+    let cases : [String : Int]
+    let deaths: [String : Int]
+}
+
 extension Formatter {
     static let withSeparator: NumberFormatter = {
         let numberFormatter = NumberFormatter()
@@ -124,5 +240,12 @@ extension Formatter {
 extension Int {
     var formattedWithSeparator: String {
         return Formatter.withSeparator.string(for: self) ?? ""
+    }
+}
+
+extension WorldSummaryViewController: IAxisValueFormatter {
+
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return timestampArray[Int(value)]
     }
 }

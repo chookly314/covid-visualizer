@@ -12,7 +12,6 @@ class CountryDetailsViewController: UIViewController {
 
     // MARK - Outlets
     @IBOutlet weak var flag: UIImageView!
-    @IBOutlet weak var name: UILabel!
     @IBOutlet weak var cases: UILabel!
     @IBOutlet weak var todayCases: UILabel!
     @IBOutlet weak var deaths: UILabel!
@@ -30,7 +29,7 @@ class CountryDetailsViewController: UIViewController {
     @IBOutlet weak var detailsNavigatiomItem: UINavigationItem!
     
     // MARK - Class varialbes
-    var selectedCountryName : String?
+    //var selectedCountryName : String?
     
     // MARK - Class constants
     let countryDetailsUrl : String = "https://corona.lmao.ninja/countries/"
@@ -46,6 +45,7 @@ class CountryDetailsViewController: UIViewController {
     let testsTitle: String = "Total tests: "
     let testsPerOneMillionTitle: String = "Tests per one million: "
     let casesGraphTitleText: String = "Cases over time"
+    let casesPerDayGraphTitleText: String = "Cases per day"
     let deathsGraphTitleText: String = "Deaths over time"
     
     
@@ -53,13 +53,23 @@ class CountryDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        initializeStaticLabels()
         retrieveCountryDetails()
+    }
+    
+    func initializeStaticLabels() {
+        DispatchQueue.main.async {
+            self.casesGraph.text = self.casesGraphTitleText
+            self.casesPerDayGraph.text = self.casesPerDayGraphTitleText
+            self.deathsPerDayGraph.text = self.deathsGraphTitleText
+        }
     }
     
     func retrieveCountryDetails() {
         
-        print(self.selectedCountryName)
-        let urlToQuery : String = "\(self.countryDetailsUrl)\(self.selectedCountryName!)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        let escapedCountry : String = selectedCountryName!.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        
+        let urlToQuery : String = "\(self.countryDetailsUrl)\(escapedCountry)"
         
         URLSession.shared.dataTask(with: URL(string: urlToQuery)!,
                 completionHandler: { data, response, error in
@@ -79,7 +89,7 @@ class CountryDetailsViewController: UIViewController {
                     }
                     
                     let newCountries = finalResult
-                    let imageUrl = finalResult.flag
+                    let imageUrl = finalResult.countryInfo.flag
 
                     DispatchQueue.main.async {
                         // Update labels content
@@ -94,10 +104,11 @@ class CountryDetailsViewController: UIViewController {
                         self.deathsPerOneMillion.text = "\(self.deathsPerOneMillionTitle) \(finalResult.deathsPerOneMillion.formattedWithSeparator)"
                         self.tests.text = "\(self.testsTitle) \(finalResult.tests.formattedWithSeparator)"
                         self.testsPerOneMillion.text = "\(self.testsPerOneMillionTitle) \(finalResult.testsPerOneMillion.formattedWithSeparator)"
-                        self.detailsNavigatiomItem.title = self.name.text
+                        self.detailsNavigatiomItem.title = selectedCountryName!
                         if let imageData = try? Data(contentsOf: URL(string:imageUrl)!) {
                                 self.flag.image = UIImage(data: imageData)
                         }
+                        
                     }
                     
             }).resume()
@@ -106,7 +117,7 @@ class CountryDetailsViewController: UIViewController {
 }
 
 struct CountryDetails: Codable {
-    let flag: String
+    let countryInfo: CountryInfo
     let cases: Int
     let todayCases: Int
     let deaths: Int
