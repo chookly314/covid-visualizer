@@ -29,7 +29,7 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
 
     
     // MARK - Class constants
-    // URL
+    // URLs
     let apiProtocol: String = "https"
     let apiDomainName: String = "corona.lmao.ninja"
     let apiWorldSummaryPath: String = "/all"
@@ -64,7 +64,6 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
         
         initializeStaticLabels()
         retrieveWorldSummary()
-        retrieveIncrements()
         updateGraphs()
     }
     
@@ -111,13 +110,10 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
                         self.tests.text = "\(self.testsTitle) \(finalResult.tests.formattedWithSeparator)"
                         self.countries.text = "\(self.countriesTitle) \(finalResult.affectedCountries.formattedWithSeparator)"
                         self.casesIncrement.text = "\(finalResult.todayCases.formattedWithSeparator)"
-                        self.deathsIncrement.text = "\(finalResult.todayDeaths.formattedWithSeparator)"                    }
+                        self.deathsIncrement.text = "\(finalResult.todayDeaths.formattedWithSeparator)"
+                    }
                     
             }).resume()
-    }
-    
-    func retrieveIncrements() {
-        
     }
     
     func updateGraphs() {
@@ -148,6 +144,7 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
                         return
                     }
 
+                    // This assumes that the first day of both cases and deaths is the same
                     self.timestampArray = Array(finalResult.cases.keys)
                     self.timestampArray.sort()
                     for i in 0..<self.timestampArray.count {
