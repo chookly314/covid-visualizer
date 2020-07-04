@@ -32,8 +32,8 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
     // URLs
     let apiProtocol: String = "https"
     let apiDomainName: String = "corona.lmao.ninja"
-    let apiWorldSummaryPath: String = "/all"
-    let apiWorldTimeseriesStatsPath: String = "/v2/historical/all"
+    let apiWorldSummaryPath: String = "/v3/covid-19/all"
+    let apiWorldTimeseriesStatsPath: String = "/v3/covid-19/historical/all"
     // Titles
     let worldSummaryTitleText: String = "World summary statistics"
     let casesTitle: String = "Total cases: "

@@ -35,8 +35,8 @@ class CountryDetailsViewController: UIViewController, ChartViewDelegate {
     // URLs
     let apiProtocol: String = "https"
     let apiDomainName: String = "corona.lmao.ninja"
-    let apiCountryDetailsPath: String = "/countries"
-    let apiCountryTimeseriesPath: String = "/v2/historical/"
+    let apiCountryDetailsPath: String = "/v3/covid-19/countries"
+    let apiCountryTimeseriesPath: String = "/v3/covid-19/historical/"
     // Titles
     let casesTitle: String = "Total cases: "
     let todayCasesTitle: String = "Total cases today: "
@@ -51,7 +51,7 @@ class CountryDetailsViewController: UIViewController, ChartViewDelegate {
     let testsPerOneMillionTitle: String = "Tests per one million: "
     let casesPerDayGraphTitleText: String = "Cases per day"
     let deathsPerDayGraphTitleText: String = "Deaths per day"
-
+    
     // MARK - Class variables
     var resultDataToDisplay: WorldSummaryDetails?
     weak var axisFormatDelegate: IAxisValueFormatter?

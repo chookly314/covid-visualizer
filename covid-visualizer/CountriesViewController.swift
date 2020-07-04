@@ -15,7 +15,7 @@ class CountriesViewController: UIViewController, UITableViewDelegate, UITableVie
 
     @IBOutlet var table: UITableView!
     
-    let countriesURL: String = "https://corona.lmao.ninja/countries"
+    let countriesURL: String = "https://corona.lmao.ninja/v3/covid-19/countries"
     
     var countries = [CountryCell]()
     
