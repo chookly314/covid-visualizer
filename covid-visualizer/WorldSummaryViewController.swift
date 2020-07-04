@@ -43,7 +43,7 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
     let criticalTitle: String = "Total critical: "
     let testsTitle: String = "Total tests: "
     let countriesTitle: String = "Total countries: "
-    let casesGraphTitleText: String = "Cases over time"
+    let casesGraphTitleText: String = "Cases over time (millions)"
     let deathsGraphTitleText: String = "Deaths over time"
     
     // MARK - Class variables
@@ -62,6 +62,20 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
         
         axisFormatDelegate = self
         
+        // MARK: General
+        casesGraph.delegate                  = self
+        casesGraph.pinchZoomEnabled          = false
+        casesGraph.drawBarShadowEnabled      = false
+        casesGraph.doubleTapToZoomEnabled    = false
+        casesGraph.fitBars                   = true
+        
+        deathsGraph.delegate                  = self
+        deathsGraph.pinchZoomEnabled          = false
+        deathsGraph.drawBarShadowEnabled      = false
+        deathsGraph.doubleTapToZoomEnabled    = false
+        deathsGraph.fitBars                   = true
+        
+        // MARK: Functions
         initializeStaticLabels()
         retrieveWorldSummary()
         updateGraphs()
@@ -152,6 +166,9 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
                     }
                     
                     var numberOfCasesArray : [Double] = Array(finalResult.cases.values).compactMap(Double.init)
+                    for (index, item) in numberOfCasesArray.enumerated() {
+                        numberOfCasesArray[index] = item/1000000
+                    }
                     numberOfCasesArray.sort()
                     var numberOfDeathsArray : [Double] = Array(finalResult.deaths.values).compactMap(Double.init)
                     numberOfDeathsArray.sort()
@@ -193,7 +210,6 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        print("Working")
         print("Entry X: \(entry.x)")
         print("Entry Y: \(entry.y)")
         print("Highlight X: \(highlight.x)")
