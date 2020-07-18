@@ -22,8 +22,8 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
     @IBOutlet weak var countries: UILabel!
     @IBOutlet weak var casesGraphTitle: UILabel!
     @IBOutlet weak var deathsGraphTitle: UILabel!
-    @IBOutlet weak var casesGraph: BarChartView!
-    @IBOutlet weak var deathsGraph: BarChartView!
+    @IBOutlet weak var casesGraph: LineChartView!
+    @IBOutlet weak var deathsGraph: LineChartView!
     @IBOutlet weak var casesIncrement: UILabel!
     @IBOutlet weak var deathsIncrement: UILabel!
 
@@ -46,6 +46,8 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
     let casesGraphTitleText: String = "Cases over time (millions)"
     let deathsGraphTitleText: String = "Deaths over time"
     
+    let graphsYAxisUnits = 1000000.0 // values will be displayed in millions
+    
     // MARK - Class variables
     var resultDataToDisplay: WorldSummaryDetails?
     weak var axisFormatDelegate: IAxisValueFormatter?
@@ -65,15 +67,11 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
         // MARK: General
         casesGraph.delegate                  = self
         casesGraph.pinchZoomEnabled          = false
-        casesGraph.drawBarShadowEnabled      = false
         casesGraph.doubleTapToZoomEnabled    = false
-        casesGraph.fitBars                   = true
         
         deathsGraph.delegate                  = self
         deathsGraph.pinchZoomEnabled          = false
-        deathsGraph.drawBarShadowEnabled      = false
         deathsGraph.doubleTapToZoomEnabled    = false
-        deathsGraph.fitBars                   = true
         
         // MARK: Functions
         initializeStaticLabels()
@@ -167,7 +165,7 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
                     
                     var numberOfCasesArray : [Double] = Array(finalResult.cases.values).compactMap(Double.init)
                     for (index, item) in numberOfCasesArray.enumerated() {
-                        numberOfCasesArray[index] = item/1000000
+                        numberOfCasesArray[index] = item/self.graphsYAxisUnits
                     }
                     numberOfCasesArray.sort()
                     var numberOfDeathsArray : [Double] = Array(finalResult.deaths.values).compactMap(Double.init)
@@ -192,21 +190,27 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
             dataEntries.append(dataEntry)
         }
                 
-        let chartDataSet = BarChartDataSet(entries: dataEntries, label: "Cases")
-        let chartData = BarChartData(dataSet: chartDataSet)
-        chartData.setDrawValues(false)
+        let chartDataSet = BarChartDataSet(entries: dataEntries)
+        
         if graph == .cases {
+            chartDataSet.setColor(.blue)
+            let chartData = BarChartData(dataSet: chartDataSet)
+            chartData.setDrawValues(false)
             self.casesGraph.data = chartData
             self.casesGraph.legend.enabled = false
             let xAxisValue = self.casesGraph.xAxis
             xAxisValue.valueFormatter = axisFormatDelegate
             xAxisValue.labelPosition = .bottom
         } else {
+            chartDataSet.setColor(.red)
+            let chartData = BarChartData(dataSet: chartDataSet)
+            chartData.setDrawValues(false)
             self.deathsGraph.data = chartData
             self.deathsGraph.legend.enabled = false
             let xAxisValue = self.deathsGraph.xAxis
             xAxisValue.valueFormatter = axisFormatDelegate
             xAxisValue.labelPosition = .bottom
+            
         }
         
         setMarkersForCharts()

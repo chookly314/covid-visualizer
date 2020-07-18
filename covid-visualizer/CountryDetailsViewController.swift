@@ -210,20 +210,25 @@ class CountryDetailsViewController: UIViewController, ChartViewDelegate {
         }
                 
         let chartDataSet = BarChartDataSet(entries: dataEntries, label: "Cases")
-        let chartData = BarChartData(dataSet: chartDataSet)
-        chartData.setDrawValues(false)
+
         if graph == .cases {
+            chartDataSet.setColor(.blue)
+            let chartData = BarChartData(dataSet: chartDataSet)
+            chartData.setDrawValues(false)
             self.newCasesGraph.data = chartData
             self.newCasesGraph.legend.enabled = false
             let xAxisValue = self.newCasesGraph.xAxis
             xAxisValue.valueFormatter = axisFormatDelegate
             xAxisValue.labelPosition = .bottom
         } else {
+            chartDataSet.setColor(.red)
+            let chartData = BarChartData(dataSet: chartDataSet)
+            chartData.setDrawValues(false)
             self.newDeathsGraph.data = chartData
             self.newDeathsGraph.legend.enabled = false
             let xAxisValue = self.newDeathsGraph.xAxis
             xAxisValue.valueFormatter = axisFormatDelegate
-            xAxisValue.labelPosition = .bottom
+            
         }
         
         setMarkersForCharts()
