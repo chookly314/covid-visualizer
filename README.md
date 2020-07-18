@@ -1,12 +1,12 @@
-# covid-visualizer
+# COVID-19 visualizer
 
-iOS application created to visualize COVID-19 real-time data.
+iOS application created to visualize COVID-19 real-time statistics.
 
-## App screens
+## App screens
 
-The screens the app has look like the following images:
+The screens the app has are the following.
 
-### World summary
+### World summary
 
 ![summary](images/worldSummary.jpeg)
 
