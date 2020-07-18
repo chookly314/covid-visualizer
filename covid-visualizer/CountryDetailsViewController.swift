@@ -228,7 +228,7 @@ class CountryDetailsViewController: UIViewController, ChartViewDelegate {
             self.newDeathsGraph.legend.enabled = false
             let xAxisValue = self.newDeathsGraph.xAxis
             xAxisValue.valueFormatter = axisFormatDelegate
-            
+            xAxisValue.labelPosition = .bottom
         }
         
         setMarkersForCharts()
