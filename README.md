@@ -8,13 +8,13 @@ The screens the app has look like the following images:
 
 ## World summary
 
-[!summary](images/worldSummary.jpeg)
+![summary](images/worldSummary.jpeg)
 
 ## Countries list
 
-[!list](images/countriesList.jpeg)
+![list](images/countriesList.jpeg)
 
 ## Country details
 
-[!details](images/countryDetails.jpeg)
+![details](images/countryDetails.jpeg)
 
