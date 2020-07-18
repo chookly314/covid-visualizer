@@ -20,7 +20,9 @@
 		3E8DE665243B745100DF1E61 /* CovidTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8DE663243B745100DF1E61 /* CovidTableViewCell.swift */; };
 		3E8DE666243B745100DF1E61 /* CovidTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E8DE664243B745100DF1E61 /* CovidTableViewCell.xib */; };
 		3EF2B292243E0EB1006C5EE8 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E42C633243D242D00B258F6 /* Charts.framework */; platformFilter = ios; };
-		3EF2B293243E0EB1006C5EE8 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3E42C633243D242D00B258F6 /* Charts.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3EF86F0E24C2FC8E00CB4A9F /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3E42C633243D242D00B258F6 /* Charts.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3EF86F1124C2FDBC00CB4A9F /* XYMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF86F1024C2FDBC00CB4A9F /* XYMarkerView.swift */; };
+		3EF86F1424C2FE0400CB4A9F /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF86F1324C2FE0400CB4A9F /* BalloonMarker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +63,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3EF2B293243E0EB1006C5EE8 /* Charts.framework in Embed Frameworks */,
+				3EF86F0E24C2FC8E00CB4A9F /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,6 +91,8 @@
 		3E42C62D243D242D00B258F6 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "../../../../../Users/leuko/Downloads/Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
 		3E8DE663243B745100DF1E61 /* CovidTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidTableViewCell.swift; sourceTree = "<group>"; };
 		3E8DE664243B745100DF1E61 /* CovidTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CovidTableViewCell.xib; sourceTree = "<group>"; };
+		3EF86F1024C2FDBC00CB4A9F /* XYMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYMarkerView.swift; sourceTree = "<group>"; };
+		3EF86F1324C2FE0400CB4A9F /* BalloonMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalloonMarker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,8 @@
 				3E8DE664243B745100DF1E61 /* CovidTableViewCell.xib */,
 				3E351E15243CE15400BEE9F7 /* WorldSummaryViewController.swift */,
 				3E42C62B243D023400B258F6 /* CountryDetailsViewController.swift */,
+				3EF86F1024C2FDBC00CB4A9F /* XYMarkerView.swift */,
+				3EF86F1324C2FE0400CB4A9F /* BalloonMarker.swift */,
 			);
 			path = "covid-visualizer";
 			sourceTree = "<group>";
@@ -349,11 +355,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E22EBF7243B583700A90E76 /* CountriesViewController.swift in Sources */,
+				3EF86F1124C2FDBC00CB4A9F /* XYMarkerView.swift in Sources */,
 				3E22EBF3243B583700A90E76 /* AppDelegate.swift in Sources */,
 				3E22EBF5243B583700A90E76 /* SceneDelegate.swift in Sources */,
 				3E351E16243CE15400BEE9F7 /* WorldSummaryViewController.swift in Sources */,
 				3E42C62C243D023400B258F6 /* CountryDetailsViewController.swift in Sources */,
 				3E8DE665243B745100DF1E61 /* CovidTableViewCell.swift in Sources */,
+				3EF86F1424C2FE0400CB4A9F /* BalloonMarker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -158,8 +158,8 @@
             filePath = "covid-visualizer/WorldSummaryViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "chartValueSelected(_:entry:highlight:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "covid-visualizer/WorldSummaryViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
             landmarkName = "chartValueSelected(_:entry:highlight:)"
             landmarkType = "7">
          </BreakpointContent>

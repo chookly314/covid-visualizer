@@ -200,13 +200,37 @@ class WorldSummaryViewController: UIViewController, ChartViewDelegate {
             self.casesGraph.legend.enabled = false
             let xAxisValue = self.casesGraph.xAxis
             xAxisValue.valueFormatter = axisFormatDelegate
+            xAxisValue.labelPosition = .bottom
         } else {
             self.deathsGraph.data = chartData
             self.deathsGraph.legend.enabled = false
             let xAxisValue = self.deathsGraph.xAxis
             xAxisValue.valueFormatter = axisFormatDelegate
-
+            xAxisValue.labelPosition = .bottom
         }
+        
+        setMarkersForCharts()
+        
+    }
+    
+    func setMarkersForCharts() {
+        let markerCases = XYMarkerView(color: UIColor(white: 180/250, alpha: 1),
+                                  font: .systemFont(ofSize: 12),
+                                  textColor: .white,
+                                  insets: UIEdgeInsets(top: 8, left: 8, bottom: 20, right: 8),
+                                  xAxisValueFormatter: self.casesGraph.xAxis.valueFormatter!)
+        markerCases.chartView = self.casesGraph
+        markerCases.minimumSize = CGSize(width: 80, height: 40)
+        self.casesGraph.marker = markerCases
+        
+        let markerDeaths = XYMarkerView(color: UIColor(white: 180/250, alpha: 1),
+                                  font: .systemFont(ofSize: 12),
+                                  textColor: .white,
+                                  insets: UIEdgeInsets(top: 8, left: 8, bottom: 20, right: 8),
+                                  xAxisValueFormatter: self.deathsGraph.xAxis.valueFormatter!)
+        markerDeaths.chartView = self.deathsGraph
+        markerDeaths.minimumSize = CGSize(width: 80, height: 40)
+        self.deathsGraph.marker = markerDeaths
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {

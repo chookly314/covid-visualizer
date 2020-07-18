@@ -217,23 +217,37 @@ class CountryDetailsViewController: UIViewController, ChartViewDelegate {
             self.newCasesGraph.legend.enabled = false
             let xAxisValue = self.newCasesGraph.xAxis
             xAxisValue.valueFormatter = axisFormatDelegate
+            xAxisValue.labelPosition = .bottom
         } else {
             self.newDeathsGraph.data = chartData
             self.newDeathsGraph.legend.enabled = false
             let xAxisValue = self.newDeathsGraph.xAxis
             xAxisValue.valueFormatter = axisFormatDelegate
-
+            xAxisValue.labelPosition = .bottom
         }
+        
+        setMarkersForCharts()
+        
     }
     
-    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        print("Entry X: \(entry.x)")
-        print("Entry Y: \(entry.y)")
-        print("Highlight X: \(highlight.x)")
-        print("Highlight Y: \(highlight.y)")
-        print("DataIndex: \(highlight.dataIndex)")
-        print("DataSetIndex: \(highlight.dataSetIndex)")
-        print("StackIndex: \(highlight.stackIndex)\n\n")
+    func setMarkersForCharts() {
+        let markerCases = XYMarkerView(color: UIColor(white: 180/250, alpha: 1),
+                                  font: .systemFont(ofSize: 12),
+                                  textColor: .white,
+                                  insets: UIEdgeInsets(top: 8, left: 8, bottom: 20, right: 8),
+                                  xAxisValueFormatter: self.newCasesGraph.xAxis.valueFormatter!)
+        markerCases.chartView = self.newCasesGraph
+        markerCases.minimumSize = CGSize(width: 80, height: 40)
+        self.newCasesGraph.marker = markerCases
+        
+        let markerDeaths = XYMarkerView(color: UIColor(white: 180/250, alpha: 1),
+                                  font: .systemFont(ofSize: 12),
+                                  textColor: .white,
+                                  insets: UIEdgeInsets(top: 8, left: 8, bottom: 20, right: 8),
+                                  xAxisValueFormatter: self.newDeathsGraph.xAxis.valueFormatter!)
+        markerDeaths.chartView = self.newDeathsGraph
+        markerDeaths.minimumSize = CGSize(width: 80, height: 40)
+        self.newDeathsGraph.marker = markerDeaths
     }
     
     func calculateNumberOfDatesToQueryForTimeseries() {
