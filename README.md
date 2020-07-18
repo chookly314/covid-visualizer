@@ -4,15 +4,17 @@ iOS application created to visualize COVID-19 real-time data.
 
 # App screens
 
+The screens the app has look like the following images:
+
 ## World summary
 
-[](images/worldSummary.jpeg)
+[!summary](images/worldSummary.jpeg)
 
 ## Countries list
 
-[](images/countriesList.jpeg)
+[!list](images/countriesList.jpeg)
 
 ## Country details
 
-[](images/countryDetails.jpeg)
+[!details](images/countryDetails.jpeg)
 
